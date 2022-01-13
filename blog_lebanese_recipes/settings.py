@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'categories.apps.CategoriesConfig',
     'role.apps.RoleConfig',
-    'favorite_recipe.apps.FavoriteRecipeConfig',
+    'favoriterecipe.apps.FavoriteRecipeConfig',
     'like.apps.LikeConfig',
     'comment.apps.CommentConfig',
     'uploadfile.apps.UploadfileConfig',

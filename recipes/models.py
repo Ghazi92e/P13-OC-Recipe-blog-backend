@@ -13,6 +13,5 @@ class Recipes(models.Model):
     file = models.ForeignKey(Uploadfile, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
-
     class Meta:
         ordering = ['created']

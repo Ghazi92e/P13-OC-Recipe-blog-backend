@@ -27,7 +27,7 @@ urlpatterns = [
     path('', include('users.urls')),
     path('', include('categories.urls')),
     path('', include('role.urls')),
-    path('', include('favorite_recipe.urls')),
+    path('', include('favoriterecipe.urls')),
     path('', include('like.urls')),
     path('', include('comment.urls')),
     path('', include('uploadfile.urls')),

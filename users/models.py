@@ -1,6 +1,7 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+# from favorite_recipe.models import FavoriteRecipe
 
 from uploadfile.models import Uploadfile
 
@@ -29,5 +30,4 @@ class CustomUser(AbstractUser):
         unique=True,
     )
     file = models.ForeignKey(Uploadfile, on_delete=models.CASCADE)
-
     objects = MyUserManager()
