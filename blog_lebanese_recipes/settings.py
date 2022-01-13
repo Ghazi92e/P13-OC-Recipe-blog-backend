@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'favorite_recipe.apps.FavoriteRecipeConfig',
     'like.apps.LikeConfig',
     'comment.apps.CommentConfig',
+    'uploadfile.apps.UploadfileConfig',
     'django_filters',
     'django_cleanup.apps.CleanupConfig',
 ]
