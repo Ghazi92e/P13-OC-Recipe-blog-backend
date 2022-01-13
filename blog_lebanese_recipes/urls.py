@@ -30,6 +30,7 @@ urlpatterns = [
     path('', include('favorite_recipe.urls')),
     path('', include('like.urls')),
     path('', include('comment.urls')),
+    path('', include('uploadfile.urls')),
 ]
 
 if DEBUG:
