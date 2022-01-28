@@ -31,3 +31,4 @@ class CustomUser(AbstractUser):
     )
     file = models.ForeignKey(Uploadfile, on_delete=models.CASCADE)
     objects = MyUserManager()
+    favorite_recipes = models.ManyToManyField('recipes.Recipes', through='favoriterecipe.FavoriteRecipe')
