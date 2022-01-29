@@ -15,7 +15,7 @@ class UserViewSet(viewsets.ModelViewSet):
     
     queryset = User.objects.all()
     serializer_class = UsersSerializer
-    filterset_fields = ['auth_token', 'id', 'favorite_recipes']
+    filterset_fields = ['auth_token', 'id']
 
 
     def perform_create(self, serializer):
