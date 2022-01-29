@@ -11,7 +11,7 @@ class Recipes(models.Model):
     title = models.CharField(max_length=100, blank=True)
     description = models.TextField()
     file = models.ForeignKey(Uploadfile, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_recipes')
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     class Meta:
-        ordering = ['created']
+        ordering = ['-created']
