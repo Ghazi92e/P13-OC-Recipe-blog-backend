@@ -31,6 +31,7 @@ urlpatterns = [
     path('', include('like.urls')),
     path('', include('comment.urls')),
     path('', include('uploadfile.urls')),
+    path('', include('relationships.urls')),
 ]
 
 if DEBUG:
