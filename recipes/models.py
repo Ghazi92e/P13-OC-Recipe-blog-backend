@@ -13,5 +13,6 @@ class Recipes(models.Model):
     file = models.ForeignKey(Uploadfile, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_recipes')
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    image_url = models.URLField()
     class Meta:
         ordering = ['-created']
