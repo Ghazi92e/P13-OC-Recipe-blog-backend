@@ -11,4 +11,4 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ['created']
+        ordering = ['-created']
