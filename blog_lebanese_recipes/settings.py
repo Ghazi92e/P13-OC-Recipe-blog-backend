@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'like.apps.LikeConfig',
     'comment.apps.CommentConfig',
     'uploadfile.apps.UploadfileConfig',
+    'relationships.apps.RelationshipsConfig',
+    'structure.apps.StructureConfig',
     'django_filters',
     'django_cleanup.apps.CleanupConfig',
 ]
