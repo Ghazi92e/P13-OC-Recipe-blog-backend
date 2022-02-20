@@ -2,19 +2,34 @@ from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from recipes.serializers import RecipesSerializer, RecipesUsernameImageSerializer
+from relationships.models import Relationships
+from relationships.serializers import RelationshipsUserFollowing
+
 
 User = get_user_model()
 
 class UsersSerializer(serializers.ModelSerializer):
-    user_recipes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'file', 'favorite_recipes', 'user_recipes']
-
+        fields = ['id', 'username', 'email', 'password', 'file', 'image_url']
 
 class UsersFavoriteRecipesSerializer(serializers.ModelSerializer):
+    favorite_recipes = RecipesUsernameImageSerializer(many=True, read_only=True)
+    class Meta:
+        model = User
+        fields = ['id', 'favorite_recipes', 'username']
+
+class UsersRecipesSerializer(serializers.ModelSerializer):
+    # user_recipes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    user_recipes = RecipesSerializer(many=True, read_only=True)
+    class Meta:
+        model = User
+        fields = ['id', 'user_recipes', 'username']
+
+class UsersFollowingSerializer(serializers.ModelSerializer):
+    user_follower_data = RelationshipsUserFollowing(many=True, read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'favorite_recipes']
-        
+        fields = ['id', 'user_follower_data']
