@@ -1,7 +1,4 @@
-import operator
-from functools import reduce
-from multiprocessing import Value
-from unicodedata import category
+
 from rest_framework import status
 from rest_framework.response import Response
 from django.contrib.auth.models import User
@@ -16,13 +13,43 @@ from favoriterecipe.models import FavoriteRecipe
 from uploadfile.models import Uploadfile
 from users.serializers import UsersSerializer
 from rest_framework.decorators import action
+from rest_framework import permissions
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 User = get_user_model()
-class UserViewSet(viewsets.ModelViewSet):
+
+class IsAdminUserOrReadOnly(permissions.BasePermission):
+    """
+    Object-level permission to only allow owners of an object to edit it.
+    Assumes the model instance has an `owner` attribute.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
+        if request.method in permissions.SAFE_METHODS:
+            print("je suis la ")
+            return True
+        if obj.id == request.user.id:
+            return True
     
+
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UsersSerializer
     filterset_fields = ['auth_token', 'id', 'username']
+
+    def get_permissions(self):
+        """
+        Permit action create to let user create account.
+        """
+        permission_classes = []
+        if self.action == 'create':
+            permission_classes = [permissions.AllowAny]
+        else:
+            permission_classes = [permissions.IsAuthenticated, IsAdminUserOrReadOnly]
+        return [permission() for permission in permission_classes]
 
 
     def perform_create(self, serializer):
@@ -57,14 +84,6 @@ class UserViewSet(viewsets.ModelViewSet):
             querysetdata = FavoriteRecipe.objects.get(user=pk, recipe=request.data.get('recipe'))
             querysetdata.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-    
-
-    # @action(detail=True, methods=['get'])
-    # def recipes(self, request, pk):
-    #     queryset = User.objects.get(pk=pk)
-    #     if request.method == 'GET':
-    #         serializer = UsersRecipesSerializer(queryset)
-    #         return Response(serializer.data)
 
     @action(detail=True, methods=['get'])
     def recipes(self, request, pk):
@@ -73,49 +92,48 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer = RecipesUsernameImageSerializer(queryset, many=True)
             return Response(serializer.data)
 
-    @action(detail=False, methods=['post'])
-    def recipes_user_following(self, request):
-        usersFollowingsIds = request.data
-        print(usersFollowingsIds)
-        array = []
-        for dataFollow in usersFollowingsIds:
-            array.append(dataFollow.get("user_following")[0])
-        array.append(dataFollow.get("user_follower")[0])
-        print(array)
-        queryset = Recipes.objects.filter(user__in=array)
+    @action(detail=True, methods=['get'])
+    def recipes_user_following(self, request, pk):
+        user_following = []
+        queryset = Relationships.objects.filter(user_follower=pk)
+        serializer = RelationshipsUserFollowing(queryset, many=True)
+        for data in serializer.data:
+            user_following.append(data.get('user_following')[0])
+        user_following.append(int(pk))
+
+        print(user_following)
+        queryset = Recipes.objects.filter(user__in=user_following)
         # queryset = Recipes.objects.filter(title__startswith="Recette")
-        if request.method == 'POST':
-        #     serializer = UsersRecipesSerializer(queryset)
+        if request.method == 'GET':
             serializer = RecipesUsernameImageSerializer(queryset, many=True)
             return Response(serializer.data)
 
-    # @action(detail=False, methods=['post'])
-    # def recipes_user_following(self, request):
-    #     usersFollowingsIds = request.data
-    #     print(usersFollowingsIds)
-    #     queryset = Recipes.objects.filter(user__in=usersFollowingsIds)
-    #     # queryset = Recipes.objects.filter(title__startswith="Recette")
-    #     if request.method == 'POST':
-    #         # serializer = UsersRecipesSerializer(queryset)
-    #         serializer = RecipesUsernameImageSerializer(queryset, many=True)
-    #         return Response(serializer.data)
+    @action(detail=True, methods=['post'])
+    def get_user_recipes_following_by_category(self, request, pk):
+        user_following = []
+        queryset = Relationships.objects.filter(user_follower=pk)
+        serializer = RelationshipsUserFollowing(queryset, many=True)
+        for data in serializer.data:
+            user_following.append(data.get('user_following')[0])
+        user_following.append(int(pk))
 
-
-    @action(detail=False, methods=['post'])
-    def get_user_recipes_following_by_category(self, request):
         dict = request.data
-        print(dict.get("category__in"), dict.get("user__in"))
-        queryset = Recipes.objects.filter(category__in=dict.get("category__in"), user__in=dict.get("user__in"))
+        print(dict.get("category__in"))
+        queryset = Recipes.objects.filter(category__in=dict.get("category__in"), user__in=user_following)
         if request.method == 'POST':
             serializer = RecipesUsernameImageSerializer(queryset, many=True)
             return Response(serializer.data)
     
     @action(detail=True, methods=['get', 'post', 'delete'])
     def following(self, request, pk):
+        user_following = []
         queryset = Relationships.objects.filter(user_follower=pk)
         if request.method == 'GET':
             serializer = RelationshipsUserFollowing(queryset, many=True)
-            return Response(serializer.data)
+            for data in serializer.data:
+                user_following.append(data.get('user_following')[0])
+            user_following.append(int(pk))
+            return Response(user_following)
         
         elif request.method == 'POST':
             serializer = RelationshipsSerializer(data=request.data)
@@ -138,58 +156,34 @@ class UserViewSet(viewsets.ModelViewSet):
         if request.method == 'POST':
             serializer = RecipesUsernameImageSerializer(queryset, many=True)
             return Response(serializer.data)
-
-
-        
-
-
-    # @action(detail=True, methods=['post'])
-    # def favorite_recipes(self, request, pk=None):
-    #     datatest = User.objects.all().filter(pk=pk)
-    #     serializer = UsersFavoriteRecipesSerializer(datatest, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # @action(detail=True, methods=['put'])
-    # def delete_favorite_recipes(self, request, pk=None):
-    #     user_recipe = FavoriteRecipe.objects.all().filter(user=pk).first()
-    #     serializer = FavoriteRecipeSerializer(user_recipe, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-        # favorite_recipes = user_recipe.favorite_recipes.all()
-        # remove = request.data['favorite_recipes']
-        # datatest.delete()
-
-
-
-
-
-
-# @api_view(['GET', 'POST'])
-# def users_list(request):        
-#     if request.method == 'GET':
-#         users = User.objects.all()
-#         serializer = UsersSerializer(users, many=True)
-#         return Response(serializer.data)
     
-#     elif request.method == 'POST':
-#         serializer = UsersSerializer(data=request.data)
-#         if serializer.is_valid():
-#             username = serializer.data.get('username')
-#             email = serializer.data.get('email')
-#             password = serializer.data.get('password')
-#             user = User.objects.create_user(username, email, password)
-#             user.save()
-#             # datauser = User.objects.get(auth_token='b3f87da93354fe453b0dc289c8b5b8886b20767e')
-#             # print(datauser.id)
-#             for user in User.objects.all():
-#                 data = Token.objects.get_or_create(user=user)
-#                 print(data, user.auth_token.key)
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    @action(detail=True, methods=['get', 'post', 'delete'])
+    def follower(self, request, pk):
+        user_follower = []
+        queryset = Relationships.objects.filter(user_following=pk)
+        if request.method == 'GET':
+            serializer = RelationshipsUserFollowing(queryset, many=True)
+            for data in serializer.data:
+                user_follower.append(data.get('user_follower')[0])
+            return Response(user_follower)
+    
+    @action(detail=True, methods=['get'])
+    def count_user_follower(self, request, pk):
+        queryset = Relationships.objects.filter(user_following=pk).count()
+        if request.method == 'GET':
+            return Response(queryset)
+
+    @action(detail=True, methods=['get'])
+    def count_user_following(self, request, pk):
+        queryset = Relationships.objects.filter(user_follower=pk).count()
+        if request.method == 'GET':
+            return Response(queryset)
+    
+    @action(detail=True, methods=['get'])
+    def count_user_recipes(self, request, pk):
+        queryset = Recipes.objects.filter(user=pk).count()
+        if request.method == 'GET':
+            return Response(queryset)
+    
+    
+
