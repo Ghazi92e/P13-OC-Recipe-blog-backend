@@ -157,7 +157,7 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer = RecipesUsernameImageSerializer(queryset, many=True)
             return Response(serializer.data)
     
-    @action(detail=True, methods=['get', 'post', 'delete'])
+    @action(detail=True, methods=['get'])
     def follower(self, request, pk):
         user_follower = []
         queryset = Relationships.objects.filter(user_following=pk)
