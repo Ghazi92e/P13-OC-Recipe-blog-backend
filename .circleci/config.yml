@@ -4,7 +4,7 @@ jobs:
   tests:
     docker:
       - image: circleci/python:3.8.10
-      - image: circleci/postgres:14.1.0
+      - image: cimg/postgres:14.0
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
