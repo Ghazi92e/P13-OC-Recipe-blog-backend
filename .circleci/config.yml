@@ -13,7 +13,8 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            pip install --upgrade pip
+            sudo pip install pipenv
+            pipenv install
             pip install --user -r requirements.txt
       - save_cache:
           key: deps9-{{ .Branch }}-{{ checksum "requirements.txt" }}
