@@ -1,7 +1,6 @@
 from rest_framework import viewsets
 from recipes.models import Recipes
 from recipes.serializers import RecipesSerializer
-from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
 
 
@@ -14,6 +13,9 @@ class IsUserOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         # Read permissions are allowed to any request,
         # so we'll always allow GET, HEAD or OPTIONS requests.
+        if (request.user.is_superuser == True):
+            return True
+
         if request.method in permissions.SAFE_METHODS:
             return True
         else:
