@@ -21,3 +21,8 @@ jobs:
             - "/usr/local/bin"
             - "/usr/local/lib/python3.6/site-packages"
       - run: python manage.py test
+
+workflows:
+  main:
+    jobs:
+      - tests
