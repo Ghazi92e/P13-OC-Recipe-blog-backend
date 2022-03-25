@@ -25,6 +25,6 @@ jobs:
 workflows:
   main:
     jobs:
-      - build:
-          context: P13_OC_BACKEND_ENV
-      - tests
+      - tests:
+          context:
+            - P13_OC_BACKEND_ENV
