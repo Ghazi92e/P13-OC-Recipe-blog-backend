@@ -6,6 +6,7 @@ jobs:
       - image: circleci/python:3.8.10
       - image: cimg/postgres:14.0
         environment:
+          DATABASE_URL: postgresql://circleci@localhost/circle_test
           POSTGRES_USER: postgres
           TEST_DATABASE_URL: localhost
     steps:
