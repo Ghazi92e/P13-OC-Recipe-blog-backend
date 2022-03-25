@@ -6,7 +6,7 @@ jobs:
       - image: circleci/python:3.8.10
       - image: cimg/postgres:14.0
         environment:
-          POSTGRES_USER: ghazi
+          POSTGRES_USER: example
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
