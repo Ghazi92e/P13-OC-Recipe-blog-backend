@@ -11,5 +11,5 @@ urlpatterns = [
     # path('api-users/', views.users_list),
     # path('api-recipes/<int:pk>/', views.recipes_detail),
     path('', include(router.urls)),
-    path('api-token-auth/', obtain_auth_token),
+    path('token-auth/', obtain_auth_token),
 ]
