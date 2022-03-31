@@ -4,7 +4,7 @@ from like import views
 from django.urls import include
 
 router = DefaultRouter()
-router.register(r'api-like', views.LikeViewSet)
+router.register(r'like', views.LikeViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

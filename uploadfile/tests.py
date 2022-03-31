@@ -12,7 +12,7 @@ User = get_user_model()
 class UploadfileTests(APITestCase):
 
     def setUp(self):
-        self.uploadfile_path = '/api-upload-file/'
+        self.uploadfile_path = '/api/upload-file/'
 
         self.file = Uploadfile.objects.create(file="http://127.0.0.1:8000/media/recipes1")
 

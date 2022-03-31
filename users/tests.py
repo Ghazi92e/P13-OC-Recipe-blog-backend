@@ -11,7 +11,7 @@ User = get_user_model()
 class UsersTests(APITestCase):
 
     def setUp(self):
-        self.users_path = '/api-users/'
+        self.users_path = '/api/users/'
 
         file = Uploadfile.objects.create(file="url_image")
         self.cat1 = Categories.objects.create(name="TestCategory")

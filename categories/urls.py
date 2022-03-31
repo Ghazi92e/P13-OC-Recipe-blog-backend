@@ -3,7 +3,7 @@ from categories import views
 from django.urls import path, include
 
 router = DefaultRouter()
-router.register(r'api-categories', views.CategoriesViewSet)
+router.register(r'categories', views.CategoriesViewSet)
 
 urlpatterns = [
 

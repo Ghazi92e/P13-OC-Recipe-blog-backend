@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 
 router = DefaultRouter()
-router.register(r'api-users', views.UserViewSet)
+router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     # path('api-users/', views.users_list),

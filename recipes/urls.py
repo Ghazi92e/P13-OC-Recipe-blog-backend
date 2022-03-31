@@ -4,7 +4,7 @@ from recipes import views
 from django.urls import include
 
 router = DefaultRouter()
-router.register(r'api-recipes', views.RecipeViewSet)
+router.register(r'recipes', views.RecipeViewSet)
 
 urlpatterns = [
 

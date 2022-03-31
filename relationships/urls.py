@@ -4,7 +4,7 @@ from relationships import views
 from django.urls import include
 
 router = DefaultRouter()
-router.register(r'api-relationships', views.RelationshipsViewSet)
+router.register(r'relationships', views.RelationshipsViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

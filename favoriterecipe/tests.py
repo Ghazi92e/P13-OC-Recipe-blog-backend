@@ -12,7 +12,7 @@ User = get_user_model()
 class FavoriteRecipeTests(APITestCase):
 
     def setUp(self):
-        self.favoriterecipe_path = '/api-favoriterecipe/'
+        self.favoriterecipe_path = '/api/favoriterecipe/'
     
         file = Uploadfile.objects.create(file="url_image")
         cat1 = Categories.objects.create(name="TestCategory")

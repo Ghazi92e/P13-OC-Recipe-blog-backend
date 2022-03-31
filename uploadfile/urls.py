@@ -4,7 +4,7 @@ from uploadfile import views
 from django.urls import include
 
 router = DefaultRouter()
-router.register(r'api-upload-file', views.UploadfileViewSet)
+router.register(r'upload-file', views.UploadfileViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

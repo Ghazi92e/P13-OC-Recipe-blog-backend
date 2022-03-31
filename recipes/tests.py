@@ -11,7 +11,7 @@ User = get_user_model()
 class RecipesTests(APITestCase):
 
     def setUp(self):
-        self.recipes_path = '/api-recipes/'
+        self.recipes_path = '/api/recipes/'
 
         file = Uploadfile.objects.create(file="url_image")
         cat1 = Categories.objects.create(name="TestCategory")

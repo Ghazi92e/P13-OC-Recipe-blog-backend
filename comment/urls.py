@@ -4,7 +4,7 @@ from comment import views
 from django.urls import include
 
 router = DefaultRouter()
-router.register(r'api-comment', views.CommentViewSet)
+router.register(r'comment', views.CommentViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

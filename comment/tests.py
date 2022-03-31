@@ -10,7 +10,7 @@ User = get_user_model()
 class CommentTests(APITestCase):
 
     def setUp(self):
-        self.comment_path = '/api-comment/'
+        self.comment_path = '/api/comment/'
 
         file = Uploadfile.objects.create(file="url_image")
 

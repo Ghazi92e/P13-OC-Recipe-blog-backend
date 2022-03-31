@@ -23,15 +23,15 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('recipes.urls')),
-    path('', include('users.urls')),
-    path('', include('categories.urls')),
-    path('', include('role.urls')),
-    path('', include('favoriterecipe.urls')),
-    path('', include('like.urls')),
-    path('', include('comment.urls')),
-    path('', include('uploadfile.urls')),
-    path('', include('relationships.urls')),
+    path('api/', include('recipes.urls')),
+    path('api/', include('users.urls')),
+    path('api/', include('categories.urls')),
+    path('api/', include('role.urls')),
+    path('api/', include('favoriterecipe.urls')),
+    path('api/', include('like.urls')),
+    path('api/', include('comment.urls')),
+    path('api/', include('uploadfile.urls')),
+    path('api/', include('relationships.urls')),
 ]
 
 if DEBUG:

@@ -4,7 +4,7 @@ from django.urls import include
 from role import views
 
 router = DefaultRouter()
-router.register(r'api-role', views.RoleViewSet)
+router.register(r'role', views.RoleViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -13,7 +13,7 @@ User = get_user_model()
 class RelationshipsTests(APITestCase):
 
     def setUp(self):
-        self.relationships_path = '/api-relationships/'
+        self.relationships_path = '/api/relationships/'
 
         file = Uploadfile.objects.create(file="url_image")
 
