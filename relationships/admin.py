@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from relationships.models import Relationships
+
+admin.site.register(Relationships)
+
