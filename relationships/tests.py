@@ -23,9 +23,7 @@ class RelationshipsTests(APITestCase):
         self.client.force_authenticate(user=self.user1)
         self.client.force_authenticate(user=self.user2)
 
-        self.relationships = Relationships.objects.create()
-        self.relationships.user_follower.add(self.user1)
-        self.relationships.user_following.add(self.user2)
+        self.relationships = Relationships.objects.create(user_follower=self.user1, user_following=self.user2)
 
     def test_can_create_relationships(self):
         serializer = RelationshipsSerializer(self.relationships)
