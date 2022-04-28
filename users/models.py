@@ -25,6 +25,24 @@ class MyUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
+    
+    def create_superuser(self, username, email, password=None):
+        """
+        Creates and saves a superuser with the given email, date of
+        birth and password.
+        """
+        file = Uploadfile.objects.get(pk=1)
+        user = self.create_user(
+            username=username,
+            email=self.normalize_email(email),
+            password=password,
+            file=file,
+            image_url=''
+        )
+        user.is_superuser = True
+        user.is_staff = True
+        user.save(using=self._db)
+        return user
 class CustomUser(AbstractUser):
     email = models.EmailField(
         unique=True,
@@ -33,4 +51,4 @@ class CustomUser(AbstractUser):
     image_url = models.URLField()
     objects = MyUserManager()
     # favorite_recipes = models.ManyToManyField('recipes.Recipes', through='favoriterecipe.FavoriteRecipe')
-    # user_following = models.ManyToManyField('relationships.Relationships')
+    # user_followings = models.ManyToManyField("self", through='relationships.Relationships')
