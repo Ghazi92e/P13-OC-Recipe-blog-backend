@@ -38,3 +38,8 @@ class UsersRecipesSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = User
 #         fields = ['id', 'user_follower_data']
+
+class UsersFollowingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password', 'file', 'image_url', 'is_superuser', 'user_followings']

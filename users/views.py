@@ -11,7 +11,7 @@ from relationships.serializers import RelationshipsSerializer, RelationshipsUser
 from favoriterecipe.serializers import FavoriteRecipeSerializer, UserFavoriteRecipesSerializer
 from favoriterecipe.models import FavoriteRecipe
 from uploadfile.models import Uploadfile
-from users.serializers import UsersSerializer
+from users.serializers import UsersFollowingSerializer, UsersSerializer
 from rest_framework.decorators import action
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
@@ -98,7 +98,7 @@ class UserViewSet(viewsets.ModelViewSet):
         queryset = Relationships.objects.filter(user_follower=pk)
         serializer = RelationshipsUserFollowing(queryset, many=True)
         for data in serializer.data:
-            user_following.append(data.get('user_following')[0])
+            user_following.append(data.get('user_following'))
         user_following.append(int(pk))
 
         print(user_following)
@@ -114,7 +114,7 @@ class UserViewSet(viewsets.ModelViewSet):
         queryset = Relationships.objects.filter(user_follower=pk)
         serializer = RelationshipsUserFollowing(queryset, many=True)
         for data in serializer.data:
-            user_following.append(data.get('user_following')[0])
+            user_following.append(data.get('user_following'))
         user_following.append(int(pk))
 
         dict = request.data
@@ -131,7 +131,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if request.method == 'GET':
             serializer = RelationshipsUserFollowing(queryset, many=True)
             for data in serializer.data:
-                user_following.append(data.get('user_following')[0])
+                user_following.append(data.get('user_following'))
             user_following.append(int(pk))
             return Response(user_following)
         
@@ -164,7 +164,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if request.method == 'GET':
             serializer = RelationshipsUserFollowing(queryset, many=True)
             for data in serializer.data:
-                user_follower.append(data.get('user_follower')[0])
+                user_follower.append(data.get('user_follower'))
             return Response(user_follower)
     
     @action(detail=True, methods=['get'])
@@ -185,5 +185,16 @@ class UserViewSet(viewsets.ModelViewSet):
         if request.method == 'GET':
             return Response(queryset)
     
-    
+
+    # @action(detail=True, methods=['get'])
+    # def user_followings(self, request, pk):
+    #     queryset = User.objects.filter(pk=pk)
+    #     if request.method == 'GET':
+    #         serializer = UsersFollowingSerializer(queryset, many=True)
+    #         for testdata in serializer.data:
+    #             print(testdata.get('user_followings'))
+    #         return Response(serializer.data)
+
+
+
 

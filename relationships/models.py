@@ -7,5 +7,5 @@ User = get_user_model()
 # Create your models here.
 
 class Relationships(models.Model):
-    user_follower = models.ManyToManyField(User, related_name='user_follower_data')
-    user_following = models.ManyToManyField(User, related_name='user_following_data')
+    user_follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_follower_data', null=True)
+    user_following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_following_data', null=True)
