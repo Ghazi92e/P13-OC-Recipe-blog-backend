@@ -13,7 +13,7 @@ class IsUserOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         # Read permissions are allowed to any request,
         # so we'll always allow GET, HEAD or OPTIONS requests.
-        if (request.user.is_superuser == True):
+        if (request.user.is_superuser is True):
             return True
 
         if request.method in permissions.SAFE_METHODS:
@@ -21,6 +21,7 @@ class IsUserOrReadOnly(permissions.BasePermission):
         else:
             # Instance must have an attribute named `owner`.
             return obj.user == request.user
+
 
 class RecipeViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, IsUserOrReadOnly]

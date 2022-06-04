@@ -3,13 +3,11 @@ from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
 from relationships.models import Relationships
 from relationships.serializers import RelationshipsSerializer
-from recipes.serializers import RecipesSerializer
-from categories.models import Categories
 from uploadfile.models import Uploadfile
-from rest_framework.test import APITestCase
-from recipes.models import Recipes
 
 User = get_user_model()
+
+
 class RelationshipsTests(APITestCase):
 
     def setUp(self):
@@ -17,13 +15,23 @@ class RelationshipsTests(APITestCase):
 
         file = Uploadfile.objects.create(file="url_image")
 
-        self.user1 = User.objects.create_user(username='User1', email='user1@mail.com', password='user123', file=file, image_url='user_image_url')
-        self.user2 = User.objects.create_user(username='User2', email='user2@mail.com', password='user1234', file=file, image_url='user_image_url2')
+        self.user1 = User.objects.create_user(username='User1',
+                                              email='user1@mail.com',
+                                              password='user123',
+                                              file=file,
+                                              image_url='user_image_url')
+        self.user2 = User.objects.create_user(username='User2',
+                                              email='user2@mail.com',
+                                              password='user1234',
+                                              file=file,
+                                              image_url='user_image_url2')
 
         self.client.force_authenticate(user=self.user1)
         self.client.force_authenticate(user=self.user2)
 
-        self.relationships = Relationships.objects.create(user_follower=self.user1, user_following=self.user2)
+        self.relationships = Relationships.objects.create(
+                                                   user_follower=self.user1,
+                                                   user_following=self.user2)
 
     def test_can_create_relationships(self):
         serializer = RelationshipsSerializer(self.relationships)

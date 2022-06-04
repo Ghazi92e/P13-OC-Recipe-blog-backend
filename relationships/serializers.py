@@ -1,6 +1,4 @@
-from django.db.models import fields
 from rest_framework import serializers
-from structure.serializers.users import UsersSerializer
 from relationships.models import Relationships
 
 

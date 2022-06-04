@@ -1,8 +1,7 @@
-from django.shortcuts import render
 from rest_framework import viewsets
 from categories.serializers import CategoriesSerializer
-
 from categories.models import Categories
+
 
 class CategoriesViewSet(viewsets.ModelViewSet):
 
