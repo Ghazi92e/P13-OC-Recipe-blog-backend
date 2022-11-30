@@ -12,9 +12,14 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Like',
+            name='Message',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('created', models.DateTimeField(auto_now_add=True)),
+                ('message', models.TextField()),
             ],
+            options={
+                'ordering': ['created'],
+            },
         ),
     ]

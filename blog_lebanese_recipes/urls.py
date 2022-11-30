@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/', include('comment.urls')),
     path('api/', include('uploadfile.urls')),
     path('api/', include('relationships.urls')),
+    path('api/', include('user_tchat.urls')),
 ]
 
 if DEBUG:
