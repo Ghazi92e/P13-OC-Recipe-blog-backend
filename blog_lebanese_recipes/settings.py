@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'comment.apps.CommentConfig',
     'uploadfile.apps.UploadfileConfig',
     'relationships.apps.RelationshipsConfig',
+    'user_tchat.apps.UserTchatConfig',
     'structure.apps.StructureConfig',
     'django_filters',
     'django_cleanup.apps.CleanupConfig',
